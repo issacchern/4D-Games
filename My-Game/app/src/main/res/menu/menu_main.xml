@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">>
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_action_search"
+        android:orderInCategory="100"
+        android:title="@string/abc_search_hint"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_1"
+        android:orderInCategory="1"
+        android:title="Something"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_2"
+        android:orderInCategory="2"
+        android:title="Anything"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_3"
+        android:orderInCategory="3"
+        android:title="Nothing"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_4"
+        android:orderInCategory="4"
+        android:title="Whatever"
+        app:showAsAction="never" />
+
+</menu>

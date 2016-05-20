@@ -4,18 +4,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
-import com.mikepenz.fastadapter.utils.RecyclerViewCacheUtil;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -25,7 +28,6 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.holder.StringHolder;
 import com.mikepenz.materialdrawer.interfaces.OnCheckedChangeListener;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.ExpandableDrawerItem;
@@ -33,16 +35,15 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondarySwitchDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryToggleDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.SwitchDrawerItem;
 import com.mikepenz.materialdrawer.model.ToggleDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.Badgeable;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.mikepenz.octicons_typeface_library.Octicons;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener{
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private Drawer result = null;
     private Drawer resultAppended = null;
     private boolean doubleBackToExitPressedOnce = false;
+    private MaterialSearchView searchView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,25 +69,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
         // Create a few sample profile
         // NOTE you have to define the loader logic too. See the CustomApplication for more details
-        final IProfile profile = new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon("https://avatars3.githubusercontent.com/u/1476232?v=3&s=460").withIdentifier(100);
-        final IProfile profile2 = new ProfileDrawerItem().withName("Bernat Borras").withEmail("alorma@github.com").withIcon(Uri.parse("https://avatars3.githubusercontent.com/u/887462?v=3&s=460")).withIdentifier(101);
-        final IProfile profile3 = new ProfileDrawerItem().withName("Max Muster").withEmail("max.mustermann@gmail.com").withIcon(R.drawable.profile2).withIdentifier(102);
-        final IProfile profile4 = new ProfileDrawerItem().withName("Felix House").withEmail("felix.house@gmail.com").withIcon(R.drawable.profile3).withIdentifier(103);
-        final IProfile profile5 = new ProfileDrawerItem().withName("Mr. X").withEmail("mister.x.super@gmail.com").withIcon(R.drawable.profile4).withIdentifier(104);
-        final IProfile profile6 = new ProfileDrawerItem().withName("Batman").withEmail("batman@gmail.com").withIcon(R.drawable.profile5).withIdentifier(105);
+        final IProfile profile3 = new ProfileDrawerItem().withName("Max Muster").withEmail("max.mustermann@gmail.com").withIcon(R.drawable.profile2).withIdentifier(100);
+        final IProfile profile4 = new ProfileDrawerItem().withName("Felix House").withEmail("felix.house@gmail.com").withIcon(R.drawable.profile3).withIdentifier(101);
+        final IProfile profile5 = new ProfileDrawerItem().withName("Mr. X").withEmail("mister.x.super@gmail.com").withIcon(R.drawable.profile4).withIdentifier(102);
+        final IProfile profile6 = new ProfileDrawerItem().withName("Batman").withEmail("batman@gmail.com").withIcon(R.drawable.profile5).withIdentifier(103);
 
         // Create the AccountHeader
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withSavedInstance(savedInstanceState)
+
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.header)
                 .withOnlyMainProfileImageVisible(true)
                 .addProfiles(
-                        profile,
-                        profile2,
                         profile3,
                         profile4,
                         profile5,
@@ -114,7 +114,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
                         return false;
                     }
                 })
+                .withSavedInstance(savedInstanceState)
                 .build();
+
 
 
 
@@ -123,27 +125,24 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withHasStableIds(true)
-                .withSavedInstance(savedInstanceState)
                 .withItemAnimator(new AlphaCrossFadeAnimator())
                 .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_compact_header).withIcon(GoogleMaterial.Icon.gmd_sun).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_action_bar_drawer).withIcon(FontAwesome.Icon.faw_home).withIdentifier(2),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_multi_drawer).withIcon(FontAwesome.Icon.faw_gamepad).withIdentifier(3),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_non_translucent_status_drawer).withIcon(FontAwesome.Icon.faw_eye).withIdentifier(4).withBadge(12+"").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_advanced_drawer).withIcon(GoogleMaterial.Icon.gmd_adb).withIdentifier(5),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_embedded_drawer).withIcon(GoogleMaterial.Icon.gmd_battery).withIdentifier(7),
-                        new SectionDrawerItem().withName(R.string.drawer_item_section_header),
+                        new PrimaryDrawerItem().withName("Home").withIcon(GoogleMaterial.Icon.gmd_home).withIdentifier(0),
+                        new PrimaryDrawerItem().withName("Profile").withIcon(GoogleMaterial.Icon.gmd_account).withIdentifier(1),
+                        new PrimaryDrawerItem().withName("Account").withIcon(FontAwesome.Icon.faw_navicon).withIdentifier(2),
+                        new PrimaryDrawerItem().withName("Settings").withIcon(FontAwesome.Icon.faw_wheelchair).withIdentifier(3),
+                        new PrimaryDrawerItem().withName("My Coins").withIcon(FontAwesome.Icon.faw_bitcoin).withIdentifier(4).withBadge("$100").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)),
+                        new PrimaryDrawerItem().withName("About").withIcon(GoogleMaterial.Icon.gmd_account_box).withIdentifier(5).withSetSelected(false),
+                        new PrimaryDrawerItem().withName("Logout").withIcon(GoogleMaterial.Icon.gmd_run).withIdentifier(7),
+                        new SectionDrawerItem().withName("Others"),
                         new ExpandableDrawerItem().withName("Collapsable").withIcon(GoogleMaterial.Icon.gmd_collection_case_play).withIdentifier(19).withSelectable(false).withSubItems(
                                 new SecondaryDrawerItem().withName("CollapsableItem").withLevel(2).withIcon(GoogleMaterial.Icon.gmd_8tracks).withIdentifier(2000),
                                 new SecondaryDrawerItem().withName("CollapsableItem 2").withLevel(2).withIcon(GoogleMaterial.Icon.gmd_8tracks).withIdentifier(2001)
                         ),
                         new SecondaryDrawerItem().withName(R.string.drawer_item_open_source).withIcon(FontAwesome.Icon.faw_github).withIdentifier(20).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(GoogleMaterial.Icon.gmd_format_color_fill).withIdentifier(21).withTag("Bullhorn"),
-                        new DividerDrawerItem(),
-                        new SwitchDrawerItem().withName("Switch").withIcon(Octicons.Icon.oct_tools).withChecked(true).withOnCheckedChangeListener(onCheckedChangeListener),
-                        new SwitchDrawerItem().withName("Switch2").withIcon(Octicons.Icon.oct_tools).withChecked(true).withOnCheckedChangeListener(onCheckedChangeListener).withSelectable(false),
-                        new ToggleDrawerItem().withName("Toggle").withIcon(Octicons.Icon.oct_tools).withChecked(true).withOnCheckedChangeListener(onCheckedChangeListener)
+                        new SecondaryDrawerItem().withName(R.string.drawer_item_contact).withIcon(GoogleMaterial.Icon.gmd_format_color_fill).withIdentifier(21).withTag("Bullhorn")
+
                        ) // add the items we want to use with our Drawer
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -153,24 +152,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
                         if (drawerItem != null) {
 
                             Intent intent = null;
-                            if (drawerItem.getIdentifier() == 1) {
-                           //     intent = new Intent(DrawerActivity.this, CompactHeaderDrawerActivity.class);
-                            } else if (drawerItem.getIdentifier() == 2) {
-                           //     intent = new Intent(DrawerActivity.this, ActionBarActivity.class);
+                            if (drawerItem.getIdentifier() == 5) {
+                                intent = new Intent(MainActivity.this, AboutActivity.class);
+                            } else if (drawerItem.getIdentifier() == 3) {
+                                intent = new Intent(MainActivity.this, SettingsActivity.class);
+
                             } else if (drawerItem.getIdentifier() == 20) {
                   //              intent = new LibsBuilder()
                   //                      .withFields(R.string.class.getFields())
                   //                      .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                   //                      .intent(DrawerActivity.this);
                             }
-//                            if (intent != null) {
-//                                MainActivity.this.startActivity(intent);
-//                            }
+
+                            if (intent != null) {
+                                MainActivity.this.startActivity(intent);
+                            }
                         }
 
                         return false;
                     }
                 })
+                .withSavedInstance(savedInstanceState)
                 .build();
 
 
@@ -218,8 +220,39 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
 //        result.updateBadge(4, new StringHolder(10 + ""));
 
+        searchView = (MaterialSearchView) findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+        searchView.setVoiceSearch(true);
+
+
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        MainFragment fragment = new MainFragment();
+        MainFragment fragment = MainFragment.newInstance("param1", "param2");
         transaction.replace(R.id.main_fragment, fragment);
         transaction.commit();
 
@@ -227,16 +260,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     }
 
-    private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(IDrawerItem drawerItem, CompoundButton buttonView, boolean isChecked) {
-            if (drawerItem instanceof Nameable) {
-                Log.i("material-drawer", "DrawerItem: " + ((Nameable) drawerItem).getName() + " - toggleChecked: " + isChecked);
-            } else {
-                Log.i("material-drawer", "toggleChecked: " + isChecked);
-            }
-        }
-    };
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -250,6 +273,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     @Override
     public void onBackPressed() {
         //handle the back press :D close the drawer first and if the drawer is closed close the activity
+        if (searchView.isSearchOpen())
+            searchView.closeSearch();
+
         if (result != null && result.isDrawerOpen()) {
             result.closeDrawer();
         } else {
@@ -274,5 +300,30 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        searchView.setMenuItem(item);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && matches.size() > 0) {
+                String searchWrd = matches.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
+                    searchView.setQuery(searchWrd, false);
+                }
+            }
+
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -42,6 +42,10 @@
     <string name="drawer_item_open_source">Open Source</string>
     <string name="drawer_item_contact">Contact</string>
 
+    <string name="about">这是一款贴近生活的模拟万字游戏。灵感源于生活，你可能不止一次这么听人说过,想要成功果然还是需要中彩票才有机会翻身啊之类的话。很多人都会妄想以小博大，捞得第一桶金，人生从此有了奋斗的资本/底气，但事实上并没有很幸运。每天有习惯购买万字的朋友，有没有想过如果如果把你每期买万字的小钱存起来的话都可以买点小东西犒劳自己了。这是一款模拟万字游戏，和现实生活中的博彩游戏规则一样，只需下注，并等待开彩日。用的都是虚拟币。赌运欠佳的朋友可以借助这款游戏认清自己的赌运从而戒掉买万字的习惯，它会提醒你你现实生活中送给博彩公司的钱已经可以买到些什么了。当然赌运好的朋友如果在虚拟界当个有钱人还过瘾的话，可以考虑你在现实生活中的彩票的运气哦！</string>
+
+    <string name="select_date">Select date</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
