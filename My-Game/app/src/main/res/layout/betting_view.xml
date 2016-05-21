@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true" >
+
+    <TextView
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="ENTER 4 LUCKY DIGITS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <me.philio.pinentry.PinEntryView
+        android:layout_gravity="center"
+        android:id="@+id/pin_entry_border"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:accentType="character"
+        app:digitBackground="@drawable/background_border"
+        app:digitTextSize="11sp"
+        app:digitTextColor="@color/accent"
+        app:mask=""
+        app:pinInputType="number" />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textStyle="bold"
+            android:text="BUY: "
+            android:textSize="20sp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:gravity="right"
+            android:paddingBottom="5dp"
+            android:id="@+id/edit_big"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="BIG"
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="3"
+            android:inputType="numberDecimal"
+            app:met_baseColor="@android:color/white"
+            app:met_primaryColor="?colorAccent" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:gravity="right"
+            android:paddingBottom="5dp"
+            android:id="@+id/edit_small"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="SMALL"
+
+            app:met_floatingLabel="highlight"
+            app:met_maxCharacters="3"
+            android:inputType="numberDecimal"
+            app:met_baseColor="@android:color/white"
+            app:met_primaryColor="?colorAccent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textStyle="bold"
+            android:text="BET DATE: "
+            android:textSize="20sp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_add_date"
+            android:clickable="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/accent"
+            android:text="CLICK TO ADD"
+
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+    <LinearLayout
+
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/ic_c"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:text="CREDIT: 20 COINS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+
+        <TextView
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:text="TOTAL COINS:   "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_total"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:textColor="@color/accent"
+            android:layout_gravity="center"
+            android:text="   0"
+            android:background="@color/md_white_1000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

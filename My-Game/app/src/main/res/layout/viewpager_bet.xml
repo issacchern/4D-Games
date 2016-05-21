@@ -1,76 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin">
 
+    <com.flyco.tablayout.SegmentTabLayout
+        android:id="@+id/tl_3"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        tl:tl_bar_color="#ffffff"
+        tl:tl_indicator_anim_enable="true"
+        tl:tl_indicator_color="#F6CE59"
+        tl:tl_indicator_margin_bottom="2dp"
+        tl:tl_indicator_margin_left="2dp"
+        tl:tl_indicator_margin_right="2dp"
+        tl:tl_indicator_margin_top="2dp"/>
+
+    <ListView
+        android:layout_below="@+id/tl_3"
+        android:layout_above="@+id/linear_bottom_view"
+        android:id="@+id/vp_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/frame_container"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_above="@+id/linear_bottom_view"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_below="@+id/tl_3"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="match_parent">&ndash;&gt;-->
+
+    <!--</ImageView>-->
+
+
+
     <LinearLayout
+        android:id="@+id/linear_bottom_view"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:text="SELECT BET DATE"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+        <Button
+            android:drawableRight="@drawable/ic_dollar"
+            android:drawableLeft="@drawable/ic_dollar"
+            android:drawablePadding="5dp"
+            android:id="@+id/btn_bet"
+            android:text="PLACE THE BET NOW"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_weight="2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:prompt="@string/select_date">
-
-
-        </Spinner>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.github.glomadrian.codeinputlib.CodeInput
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            app:hint_text="Enter 4 Digits"
-            app:codes="4"
-            />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/edit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Big"
-            android:textCursorDrawable="@drawable/text_cursor_cyan"
-            app:met_floatingLabel="highlight"
-            app:met_baseColor="@android:color/white"
-            app:met_primaryColor="?colorAccent" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:id="@+id/edit2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:hint="Small"
-            android:textCursorDrawable="@drawable/text_cursor_cyan"
-            app:met_floatingLabel="highlight"
-            app:met_baseColor="@android:color/white"
-            app:met_primaryColor="?colorAccent" />
 
 
 
@@ -82,7 +68,4 @@
 
 
 
-
-
-
-</LinearLayout>
+</RelativeLayout>
